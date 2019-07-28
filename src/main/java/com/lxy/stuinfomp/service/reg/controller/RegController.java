@@ -5,6 +5,8 @@ import com.lxy.stuinfomp.commons.dto.AbstractBaseResult;
 import com.lxy.stuinfomp.commons.service.UserService;
 import com.lxy.stuinfomp.commons.validator.BeanValidator;
 import com.lxy.stuinfomp.commons.web.AbstractBaseController;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,8 +22,9 @@ public class RegController extends AbstractBaseController<Users> {
     @Autowired
     private UserService userService;
 
-    @PostMapping(value = "")
-    public AbstractBaseResult reg(Users user){
+    @ApiOperation(value = "用户注册",notes = "用户名和邮箱不可重复")
+    @PostMapping(value = "user")
+    public AbstractBaseResult reg(@ApiParam(name = "user",value = "登录用户") Users user){
         String message = BeanValidator.validator(user);
         if (StringUtils.isNotBlank(message)){
             return error(message,null);
