@@ -7,6 +7,8 @@ import com.lxy.stuinfomp.commons.validator.BeanValidator;
 import com.lxy.stuinfomp.commons.web.AbstractBaseController;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,6 +41,12 @@ public class RegController extends AbstractBaseController<Users> {
         if (!userService.unique("email",user.getEmail())){
             return error("邮箱重复，请重试",null);
         }
-        return null;
+        user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
+        Users resultUser = userService.save(user);
+        if (null != resultUser){
+            response.setStatus(HttpStatus.CREATED.value());
+            return success(request.getRequestURI(),resultUser);
+        }
+        return error("注册失败，请重试",null);
     }
 }
