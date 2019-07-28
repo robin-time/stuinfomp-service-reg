@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import tk.mybatis.spring.annotation.MapperScan;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.lxy.stuinfomp" )
 @EnableDiscoveryClient
 @MapperScan(basePackages = "com.lxy.stuinfomp.commons.mapper")
 public class StuinfompServiceRegApplication {
