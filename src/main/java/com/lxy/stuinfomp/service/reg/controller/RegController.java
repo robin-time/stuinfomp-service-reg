@@ -16,14 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "reg")
+@RequestMapping(value = "user")
 public class RegController extends AbstractBaseController<Users> {
 
     @Autowired
     private UserService userService;
 
     @ApiOperation(value = "用户注册",notes = "用户名和邮箱不可重复")
-    @PostMapping(value = "user")
+    @PostMapping(value = "reg")
     public AbstractBaseResult reg(@ApiParam(name = "user",value = "登录用户") Users user){
         String message = BeanValidator.validator(user);
         if (StringUtils.isNotBlank(message)){
@@ -51,5 +51,14 @@ public class RegController extends AbstractBaseController<Users> {
             return success(request.getRequestURI(),resultUser);
         }
         return error("注册失败，请重试",null);
+    }
+
+    @ApiOperation(value = "用户登录",notes = "")
+    @PostMapping(value = "login")
+    public AbstractBaseResult login(@ApiParam(name = "user",value = "登录用户") Users user){
+
+        System.out.println(user.toString());
+        response.setStatus(HttpStatus.CREATED.value());
+        return success(request.getRequestURI(),user);
     }
 }
