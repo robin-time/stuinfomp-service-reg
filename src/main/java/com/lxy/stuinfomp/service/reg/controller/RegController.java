@@ -49,7 +49,7 @@ public class RegController extends AbstractBaseController<Users> {
             return error("邮箱重复，请重试",null);
         }
         userPojo.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
-
+        userPojo.setIsDeleted(0);
         Users resultUser = userService.save(userPojo);
         if (null != resultUser){
             response.setStatus(HttpStatus.CREATED.value());
