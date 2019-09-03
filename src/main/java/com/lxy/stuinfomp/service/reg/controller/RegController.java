@@ -27,7 +27,7 @@ public class RegController extends AbstractBaseController<Users> {
 
     @ApiOperation(value = "用户注册",notes = "用户名和邮箱不可重复")
     @PostMapping(value = "reg")
-    public AbstractBaseResult reg(@ApiParam(name = "user",value = "注册用户") UserDTO user){
+    public AbstractBaseResult reg(@ApiParam(name = "user",value = "注册用户") @RequestBody UserDTO user){
         String message = BeanValidator.validator(user);
         if (StringUtils.isNotBlank(message)){
             return error(message,null);
