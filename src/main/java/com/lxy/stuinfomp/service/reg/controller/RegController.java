@@ -27,7 +27,7 @@ public class RegController extends AbstractBaseController<Users> {
 
     @ApiOperation(value = "用户注册",notes = "用户名和邮箱不可重复")
     @PostMapping(value = "reg")
-    public AbstractBaseResult reg(@ApiParam(name = "user",value = "注册用户") @RequestBody UserDTO user){
+    public AbstractBaseResult reg(@ApiParam(name = "user",value = "用户注册") @RequestBody UserDTO user){
         String message = BeanValidator.validator(user);
         if (StringUtils.isNotBlank(message)){
             return error(message,null);
@@ -64,6 +64,9 @@ public class RegController extends AbstractBaseController<Users> {
         if(user.getPassword() == null || user.getUsername() == null){
             return error("用户名或密码不能为空",null);
         }
+        /**
+         * 将用户密码MD5加密后再匹配
+         */
         user.setPassword(DigestUtils.md5DigestAsHex(user.getPassword().getBytes()));
         Users resultUser = userService.selectByUserName(user.getUsername());
 
